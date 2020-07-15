@@ -1,0 +1,104 @@
+.clear{
+    background-image: url('https://static.actu.fr/uploads/2019/07/shutterstock-35-e39af104033-original.jpg');
+}
+
+.clouds{
+    background-image: url('https://www.espacemanager.com/sites/default/files/field/image/nuages_tunisie_temps.jpg');
+}
+
+.rain{
+    background-image: url('https://freedom.fr/wp-content/uploads/2018/01/pluie.jpg');
+}
+
+.snow{
+    background-image: url('https://www.toulouse7.com/wp-content/uploads/2020/03/Neige-en-plaine-sur-lOccitanie.jpg');
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-shadow: 1px 1px 1px #222;
+
+}
+
+i.wi{
+    font-size: 5em;
+    line-height: 3em;
+}
+
+h1{
+    font-size: 3em;
+    color: #fff;
+    position: relative;
+}
+
+.tooltip{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 10px;
+    color: #fff;
+    background-color: #222;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 12px;
+    transition: opacity .3s, top .5s;
+}
+
+h1:hover .tooltip{
+    top: 60px;
+    opacity: 1;
+}
+
+p{
+    font-size: 2em;
+}
+
+.icon{
+    width: 125px!important;
+    height: 125px;
+}
+
+.card{
+    border: none!important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.hour{
+    color: white;
+    width: 150px;
+    min-width: 150px;
+    box-shadow: 0 15px 20px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    margin: 20px 10px;
+}
+
+footer{
+    /* display: flex!important;
+    flex-direction: column;
+    justify-content: center; */
+    /* width: 100vw; */
+    text-align: center;
+}
+
+.smallIcon{
+    width: 50px;
+    height: 50px;
+}
+
+#hourCondition{
+    flex-direction: row;
+    /* justify-content: space-between; */
+}
+
+#dayInfo{
+    padding: 20px 0 0 0;
+}
