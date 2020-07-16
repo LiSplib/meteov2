@@ -24,15 +24,18 @@
             ville = await fetch('http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
+            
         }else{
-            ville = ville ? document.querySelector('#ville').textContent : 'La Valette-du-Var';
+            ville = document.querySelector('#ville').textContent;
+            if(empty(ville)){
+                ville = 'Toulon';
+            }
         }
 
         const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
         updateView(meteo)  
-        console.log(ville);          
     }
 
     function updateView(data){
@@ -45,7 +48,6 @@
         const conditions = data.list[0].weather[0].main;
         document.querySelector('#ville').textContent = name;
         document.querySelector('i.wi').className = weatherIcon[conditions];
-        document.body.className = conditions.toLowerCase();
         document.querySelector('.card').classList.add(conditions.toLowerCase());
     }
 
@@ -103,9 +105,9 @@
         let eachIcon = eachHourlyData.weather[0].main;
          
         return `
-            <div class="hour text-center text-white">
+            <div class="hour ${eachIcon.toLowerCase()} text-center text-white">
                 <p>${dayHour}</p>
-                <p>${eachTemp}°C</p>
+                <p>${Math.round(eachTemp)}°C</p>
                 <i class="wi ${weatherIcon[eachIcon]}"></i>
                 <p>${eachCondition}</p>
             </div>`;
