@@ -20,12 +20,11 @@
             const ip = await fetch('https://api.ipify.org?format=json')
             .then(resultat => resultat.json())
             .then(json => json.ip)
-            .catch(err => defaultCity(err))
     
             ville = await fetch('http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
-            .catch(err => defaultCity(err))
+            .catch(ville => defaultCity(ville))
         }else{
             ville = document.querySelector('#ville').textContent;
         }
@@ -155,7 +154,7 @@
         }
     })
 
-    function defaultCity(err){
+    function defaultCity(ville){
         ville = 'la valette-du-var';
         return ville;
     }
