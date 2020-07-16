@@ -22,7 +22,7 @@
             .then(json => json.ip)
             .catch(err => defaultCity(err))
     
-            ville = await fetch('https://ip-api.com/json/' + ip)
+            ville = await fetch('http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
             .catch(err => defaultCity(err))
@@ -33,7 +33,8 @@
         const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
-        updateView(meteo)            
+        updateView(meteo)  
+        console.log(ville);          
     }
 
     function updateView(data){
