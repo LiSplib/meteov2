@@ -21,7 +21,7 @@
             .then(resultat => resultat.json())
             .then(json => json.ip)
     
-            ville = await fetch('http://ip-api.com/json/' + ip)
+            ville = await fetch('https://cors-anywhere.herokuapp.com/http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
             
