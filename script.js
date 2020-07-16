@@ -24,9 +24,8 @@
             ville = await fetch('http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
-            .catch(ville => defaultCity(ville))
         }else{
-            ville = document.querySelector('#ville').textContent;
+            ville = ville ? document.querySelector('#ville').textContent : 'La Valette-du-Var';
         }
 
         const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
@@ -153,10 +152,5 @@
             main(false);
         }
     })
-
-    function defaultCity(ville){
-        ville = 'la valette-du-var';
-        return ville;
-    }
 
     main();
