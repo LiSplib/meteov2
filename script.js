@@ -21,52 +21,50 @@
             .then(resultat => resultat.json())
             .then(json => json.ip)
     
-            ville = await fetch('https://freegeoip.app/json/' + ip)
+            ville = await fetch('http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
         }else{
             ville = document.querySelector('#ville').textContent;
         }
 
-        const meteo = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
+        const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
-        console.log(meteo);
         updateView(meteo)            
     }
 
     function updateView(data){
         let html = "";
         html += updateCurrentView(data);
-        // html += updateForecastView(data);
+        html += updateForecastView(data);
         forecastList.innerHTML = html;
-        // updateHourCondition(data);
-        const name = data.name;
-        const conditions = data.weather[0].main;
+        updateHourCondition(data);
+        const name = data.city.name;
+        const conditions = data.list[0].weather[0].main;
         document.querySelector('#ville').textContent = name;
         document.querySelector('i.wi').className = weatherIcon[conditions];
         document.body.className = conditions.toLowerCase();
         document.querySelector('.card').classList.add(conditions.toLowerCase());
-
     }
 
     function updateCurrentView(data){
-        const temperature = data.main.temp;
-        const description = data.weather[0].description;
-        const tempMax = data.main.temp_max;
-        const tempMin = data.main.temp_min;
-        const wind = data.wind.speed;
+        const temperature = data.list[0].main.temp;
+        const description = data.list[0].weather[0].description;
+        const tempMax = data.list[0].main.temp_max;
+        const tempMin = data.list[0].main.temp_min;
+        const wind = data.list[0].wind.speed;
         return `
         <div class="carousel-item active d-flex">
-            <div class="card d-block w-100 text-white text-center">
+            <div class="card d-block w-100 text-white text-center p-4">
                 <p id="city-condition" class="card-text text-center">${capitalize(description)}</p>
                 <i class="wi"></i>
                 <div class="card-body">
-                    <p id="city-temp" class="text-center">${Math.round(temperature)}°C</p>
+                    <i class="text-center wi wi-thermometer"> ${Math.round(temperature)}°C</i>
                     <p id="cityTempAll" class="text-center">Mini : ${Math.round(tempMin)}°C</p>
                     <p>Maxi : ${Math.round(tempMax)}°C</p>
-                    <p>Vitesse du vent ${wind} km/h</p>
-                    <p id="day-time" class="text-center"></p>
+                    <i class="wi wi-strong-wind"> ${wind} km/h</i>
+                    <p id="day-time" class="text-center">${data.list[0].dt_txt}</p>
                 </div>
             </div> 
         </div>
@@ -75,59 +73,68 @@
 
     function updateHourCondition(data){
         let html = "";
-        dayInfo.innerHTML = `Votre journée du ${data.fcst_day_0.day_long} ${data.current_condition.date}`;
         let actualHour = new Date();
+        let options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+        let currentDate = new Intl.DateTimeFormat("fr-FR", options).format(actualHour);
+        dayInfo.innerHTML = `Votre journée du ${currentDate}`;
+        let hourNum = actualHour.getHours();
+        let result = Math.floor(hourNum / 3);
+
+        if(result < 8){
+            result = 1;
+        }
+
         
-        for(let hourNum = actualHour.getHours(); hourNum < 24; hourNum++){
-            html += createHourCondition(hourNum, data);
-            if(hourNum > 18){
-                hourCondition.className += ' justify-content-center';
-                }
-                else{
-                    hourCondition.className += ' justify-content-between';
-                };
+        for(result; result < 8; result++){
+            html += createHourCondition(result, data);
             hourCondition.innerHTML = html;
         }
         
         return html;
     }
 
-    function createHourCondition(hourNum, data){
-        const hour = hourNum + "H00";
-        let eachHourlyData = data.fcst_day_0.hourly_data[hour];
-        let eachTemp = eachHourlyData['TMP2m'];
-        let eachCondition = eachHourlyData['CONDITION'];
-        let eachIcon = eachHourlyData['ICON'];
+    function createHourCondition(result, data){
+        const hour = Math.floor(result);
+        let eachHourlyData = data.list[hour];
+        let dayHour = eachHourlyData.dt_txt;        
+        let eachTemp = eachHourlyData.main.temp;
+        let eachCondition = eachHourlyData.weather[0].description;
+        let eachIcon = eachHourlyData.weather[0].main;
          
         return `
-                <div class="hour bg-dark text-center text-white">
-                    <p>${hour}</p>
-                    <p>${eachTemp}°C</p>
-                    <img class="smallIcon" src="${eachIcon}">
-                    <p>${eachCondition}</p>
-                </div>`;
+            <div class="hour text-center text-white">
+                <p>${dayHour}</p>
+                <p>${eachTemp}°C</p>
+                <i class="wi ${weatherIcon[eachIcon]}"></i>
+                <p>${eachCondition}</p>
+            </div>`;
     }
 
     function updateForecastView(data){
         let html = "";
-        for(let dayNum = 1; dayNum <= 4; dayNum++){
-            html += createForecastItemHtml(data, dayNum);
+        let dayNum = 0;
+        for(let currentDay = 1; currentDay < 5; currentDay++){
+            dayNum += 8;
+            let condition2 = data.list[dayNum].weather[0].main;
+            html += createForecastItemHtml(data, dayNum, condition2);
         }
+
         return html;
     }
 
-    function createForecastItemHtml(data, dayNum){
-        const dayKey = "fcst_day_" + dayNum;
-        const dayData = data[dayKey];
+    function createForecastItemHtml(data, dayNum, condition2){
+        const thisDay = data.list[dayNum];
+        let dayIcon = data.list[dayNum].weather[0].main;
+        let thisCond = condition2.toLowerCase();
         return `
         <div class="carousel-item w-100">
-            <div class="card d-block w-100 text-white text-center">
-                <p id="city-conditiond2" class="card-text text-center">${dayData.condition}</p>
-                <img src="${dayData.icon_big}" class="card-img-top icon" alt="condition météo">
+            <div class="card ${thisCond} d-block w-100 text-white text-center">
+                <p id="city-conditiond2" class="card-text text-center">${capitalize(thisDay.weather[0].description)}</p>
+                <i class="wi ${weatherIcon[dayIcon]}"></i>
                 <div class="card-body">
-                    <p id="city-tempd2" class="text-center">Temp mini : ${dayData.tmin} °C</p>
-                    <p id="city-tempd22" class="text-center">Temp max : ${dayData.tmax} °C</p>
-                    <p id="day-timed2" class="text-center">${dayData.day_long} ${dayData.date}</p>
+                    <p id="city-tempd2" class="text-center">Temp mini : ${Math.round(thisDay.main.temp_min)} °C</p>
+                    <p id="city-tempd22" class="text-center">Temp max : ${Math.round(thisDay.main.temp_max)} °C</p>
+                    <p id="day-timed2" class="text-center">${thisDay.dt_txt}</p>
                 </div>
             </div>
         </div>`;

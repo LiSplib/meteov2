@@ -1,5 +1,5 @@
 .clear{
-    background-image: url('https://static.actu.fr/uploads/2019/07/shutterstock-35-e39af104033-original.jpg');
+    background-image: url('https://t1.llb.be/hJSqjW1s3smaY_Kw7aPd8LQrAHg=/0x41:2560x1321/1280x640/5e8eec02d8ad581631d5e143.jpg');
 }
 
 .clouds{
@@ -74,7 +74,7 @@ p{
 
 .hour{
     color: white;
-    width: 150px;
+    width: 250px;
     min-width: 150px;
     box-shadow: 0 15px 20px rgba(0,0,0,0.5);
     border-radius: 20px;
@@ -87,6 +87,7 @@ footer{
     justify-content: center; */
     /* width: 100vw; */
     text-align: center;
+    font-size: 1em!important;
 }
 
 .smallIcon{
