@@ -1,6 +1,9 @@
     const forecastList = document.getElementById('forecast-list');
     const hourCondition = document.getElementById('hourCondition');
     const dayInfo = document.getElementById('dayInfo');
+    const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
+    const optionsH = {hour: "2-digit", minute: "2-digit"};
+
     const weatherIcon = {
         "Rain": "wi wi-day-rain",
         "Clouds": "wi wi-day-cloudy",
@@ -20,21 +23,22 @@
             const ip = await fetch('https://api.ipify.org?format=json')
             .then(resultat => resultat.json())
             .then(json => json.ip)
+            .catch(err => handleError(err));
     
             ville = await fetch('https://cors-anywhere.herokuapp.com/http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
+            .catch(err => handleError(err));
             
         }else{
             ville = document.querySelector('#ville').textContent;
-            if(empty(ville)){
-                ville = 'Toulon';
-            }
+            
         }
 
         const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
+        .catch(err => handleError(err));
         updateView(meteo)  
     }
 
@@ -43,31 +47,38 @@
         html += updateCurrentView(data);
         html += updateForecastView(data);
         forecastList.innerHTML = html;
-        updateHourCondition(data);
         const name = data.city.name;
         const conditions = data.list[0].weather[0].main;
         document.querySelector('#ville').textContent = name;
         document.querySelector('i.wi').className = weatherIcon[conditions];
         document.querySelector('.card').classList.add(conditions.toLowerCase());
+        updateHourCondition(data);
     }
 
     function updateCurrentView(data){
         const temperature = data.list[0].main.temp;
         const description = data.list[0].weather[0].description;
-        const tempMax = data.list[0].main.temp_max;
-        const tempMin = data.list[0].main.temp_min;
         const wind = data.list[0].wind.speed;
+        const todayNow = data.list[0].dt_txt;
+        let nowDate = formatDate(todayNow);
+        let nowHour = formatHour(todayNow);
+        let sunrise = data.city.sunrise;
+        sunrise = new Date(sunrise * 1000);
+        sunrise = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunrise);
+        let sunset = data.city.sunset;
+        sunset = new Date(sunset * 1000);
+        sunset = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunset);
         return `
-        <div class="carousel-item active d-flex">
-            <div class="card d-block w-100 text-white text-center p-4">
+        <div class="carousel-item active mh-100">
+            <div class="card w-100 text-white text-center p-4 h-100">
                 <p id="city-condition" class="card-text text-center">${capitalize(description)}</p>
                 <i class="wi"></i>
                 <div class="card-body">
-                    <i class="text-center wi wi-thermometer"> ${Math.round(temperature)}°C</i>
-                    <p id="cityTempAll" class="text-center">Mini : ${Math.round(tempMin)}°C</p>
-                    <p>Maxi : ${Math.round(tempMax)}°C</p>
-                    <i class="wi wi-strong-wind"> ${wind} km/h</i>
-                    <p id="day-time" class="text-center">${data.list[0].dt_txt}</p>
+                    <i class="text-center wi wi-thermometer"> ${Math.round(temperature)}°C</i><br>
+                    <i class="wi wi-strong-wind"> ${wind} km/h</i><br>
+                    <i class="wi wi-sunrise"> ${sunrise} </i> &ensp;
+                    <i class="wi wi-sunset"> ${sunset}</i>
+                    <p id="day-time" class="text-center">${nowDate} à ${nowHour}</p>
                 </div>
             </div> 
         </div>
@@ -77,7 +88,6 @@
     function updateHourCondition(data){
         let html = "";
         let actualHour = new Date();
-        let options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
         let currentDate = new Intl.DateTimeFormat("fr-FR", options).format(actualHour);
         dayInfo.innerHTML = `Votre journée du ${currentDate}`;
         let hourNum = actualHour.getHours();
@@ -86,30 +96,29 @@
         if(result < 8){
             result = 1;
         }
-
         
         for(result; result < 8; result++){
             html += createHourCondition(result, data);
             hourCondition.innerHTML = html;
         }
-        
         return html;
     }
 
     function createHourCondition(result, data){
         const hour = Math.floor(result);
         let eachHourlyData = data.list[hour];
-        let dayHour = eachHourlyData.dt_txt;        
+        let dayHour = eachHourlyData.dt_txt;
+        let nowDate = formatDate(dayHour);
+        let nowHour = formatHour(dayHour);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
         let eachIcon = eachHourlyData.weather[0].main;
-         
         return `
             <div class="hour ${eachIcon.toLowerCase()} text-center text-white">
-                <p>${dayHour}</p>
+                <p class="mini">${nowDate} à ${nowHour}</p>
                 <p>${Math.round(eachTemp)}°C</p>
                 <i class="wi ${weatherIcon[eachIcon]}"></i>
-                <p>${eachCondition}</p>
+                <p class="mini">${capitalize(eachCondition)}</p>
             </div>`;
     }
 
@@ -119,28 +128,37 @@
         for(let currentDay = 1; currentDay < 5; currentDay++){
             dayNum += 8;
             let condition2 = data.list[dayNum].weather[0].main;
-            html += createForecastItemHtml(data, dayNum, condition2);
+            let currentData = data.list[dayNum];
+            html += createForecastItemHtml(currentData, condition2);
         }
-
         return html;
     }
 
-    function createForecastItemHtml(data, dayNum, condition2){
-        const thisDay = data.list[dayNum];
-        let dayIcon = data.list[dayNum].weather[0].main;
+    function createForecastItemHtml(currentData, condition2){
+        const thisDay = currentData;
+        let dayIcon = currentData.weather[0].main;
         let thisCond = condition2.toLowerCase();
+        let nowDate = thisDay.dt_txt;
+        nowDate = formatDate(nowDate);
+        let temperature = currentData.main.temp;
+        let wind = currentData.wind.speed;
+        console.log(currentData);
         return `
-        <div class="carousel-item w-100">
-            <div class="card ${thisCond} d-block w-100 text-white text-center">
+        <div class="carousel-item mh-100">
+            <div class="card ${thisCond} w-100 text-white text-center p-4 h-100">
                 <p id="city-conditiond2" class="card-text text-center">${capitalize(thisDay.weather[0].description)}</p>
                 <i class="wi ${weatherIcon[dayIcon]}"></i>
                 <div class="card-body">
-                    <p id="city-tempd2" class="text-center">Temp mini : ${Math.round(thisDay.main.temp_min)} °C</p>
-                    <p id="city-tempd22" class="text-center">Temp max : ${Math.round(thisDay.main.temp_max)} °C</p>
-                    <p id="day-timed2" class="text-center">${thisDay.dt_txt}</p>
+                    <i class="text-center wi wi-thermometer"> ${Math.round(temperature)}°C</i><br>
+                    <i class="wi wi-strong-wind"> ${wind} km/h</i><br>
+                    <p id="day-time" class="text-center">${nowDate}</p>
                 </div>
             </div>
         </div>`;
+    }
+
+    function handleError(err){
+        console.error(err);
     }
 
     const ville = document.querySelector('#ville');
@@ -154,5 +172,17 @@
             main(false);
         }
     })
+
+    function formatDate(dateToFormat){
+        dateToFormat = new Date(dateToFormat);
+        dateToFormat = new Intl.DateTimeFormat("fr-FR", options).format(dateToFormat);
+        return dateToFormat;
+    }
+
+    function formatHour(dateToFormat){
+        dateToFormat = new Date(dateToFormat);
+        dateToFormat = new Intl.DateTimeFormat("fr-FR", optionsH).format(dateToFormat);
+        return dateToFormat;
+    }
 
     main();

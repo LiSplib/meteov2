@@ -15,16 +15,7 @@
 }
 
 body{
-    /* min-height: 100vh; */
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-around;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     text-shadow: 1px 1px 1px #222;
-
 }
 
 i.wi{
@@ -60,16 +51,12 @@ p{
     font-size: 2em;
 }
 
-.icon{
-    width: 125px!important;
-    height: 125px;
-}
-
 .card{
     border: none!important;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 .hour{
@@ -79,15 +66,18 @@ p{
     box-shadow: 0 15px 20px rgba(0,0,0,0.5);
     border-radius: 20px;
     margin: 20px 10px;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 footer{
-    /* display: flex!important;
-    flex-direction: column;
-    justify-content: center; */
-    /* width: 100vw; */
+    padding: 0.5em;
     text-align: center;
-    font-size: 1em!important;
+}
+
+footer p.mini{
+    font-size: calc(1vw + 1vh + 0.5vmin)!important;
+    word-wrap: break-word;
 }
 
 .smallIcon{
@@ -97,9 +87,16 @@ footer{
 
 #hourCondition{
     flex-direction: row;
-    /* justify-content: space-between; */
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 #dayInfo{
     padding: 20px 0 0 0;
+}
+
+@media all and (max-width: 6400px){
+    i.wi{
+        font-size: calc(2vw + 2vh + 1vmin)!important;
+    }
 }

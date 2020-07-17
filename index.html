@@ -11,20 +11,18 @@
     </head>
     <body class="bg-dark">
         <h1 class="text-center my-5">
-          <span id="ville"></span>
-          <span class="tooltip">Tapez votre choix ici !</span>
+            <span id="ville"></span>
+            <span class="tooltip">Tapez votre choix ici !</span>
         </h1>
-        <div class="container-fluid">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
             </ol>
-            <div class="carousel-inner" id="forecast-list"></div>           
-      
+            <div class="carousel-inner mh-100" id="forecast-list"></div>           
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
@@ -33,14 +31,10 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
-          </div>
         </div>
-        
         <footer class="text-center">
-          <h4 id="dayInfo" class="text-white text-center"></h4>
-          <div id="hourCondition" class="text-center d-flex">
-
-          </div>
+            <h4 id="dayInfo" class="text-white text-center"></h4>
+            <div id="hourCondition" class="text-center d-flex"></div>
         </footer>
         <script src="script.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
