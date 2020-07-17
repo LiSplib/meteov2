@@ -2,7 +2,8 @@
     const hourCondition = document.getElementById('hourCondition');
     const dayInfo = document.getElementById('dayInfo');
     const options = {weekday: "long", year: "numeric", month: "long", day: "numeric"};
-    const optionsH = {hour: "2-digit", minute: "2-digit"};
+    const optionsH = {hour: "numeric", minute: "2-digit"};
+    const shortDate = {weekday: "short", year: "2-digit", month: "numeric", day: "numeric"};
 
     const weatherIcon = {
         "Rain": "wi wi-day-rain",
@@ -60,8 +61,8 @@
         const description = data.list[0].weather[0].description;
         const wind = data.list[0].wind.speed;
         const todayNow = data.list[0].dt_txt;
-        let nowDate = formatDate(todayNow);
-        let nowHour = formatHour(todayNow);
+        let nowDate = formatDate(todayNow, options);
+        let nowHour = formatDate(todayNow, optionsH);
         let sunrise = data.city.sunrise;
         sunrise = new Date(sunrise * 1000);
         sunrise = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunrise);
@@ -108,8 +109,8 @@
         const hour = Math.floor(result);
         let eachHourlyData = data.list[hour];
         let dayHour = eachHourlyData.dt_txt;
-        let nowDate = formatDate(dayHour);
-        let nowHour = formatHour(dayHour);
+        let nowDate = formatDate(dayHour, shortDate);
+        let nowHour = formatDate(dayHour, optionsH);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
         let eachIcon = eachHourlyData.weather[0].main;
@@ -139,7 +140,7 @@
         let dayIcon = currentData.weather[0].main;
         let thisCond = condition2.toLowerCase();
         let nowDate = thisDay.dt_txt;
-        nowDate = formatDate(nowDate);
+        nowDate = formatDate(nowDate, options);
         let temperature = currentData.main.temp;
         let wind = currentData.wind.speed;
         console.log(currentData);
@@ -173,16 +174,16 @@
         }
     })
 
-    function formatDate(dateToFormat){
+    function formatDate(dateToFormat, option){
         dateToFormat = new Date(dateToFormat);
-        dateToFormat = new Intl.DateTimeFormat("fr-FR", options).format(dateToFormat);
+        dateToFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
         return dateToFormat;
     }
 
-    function formatHour(dateToFormat){
-        dateToFormat = new Date(dateToFormat);
-        dateToFormat = new Intl.DateTimeFormat("fr-FR", optionsH).format(dateToFormat);
-        return dateToFormat;
-    }
+    // function formatHour(dateToFormat){
+    //     dateToFormat = new Date(dateToFormat);
+    //     dateToFormat = new Intl.DateTimeFormat("fr-FR", optionsH).format(dateToFormat);
+    //     return dateToFormat;
+    // }
 
     main();
