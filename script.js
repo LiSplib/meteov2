@@ -25,11 +25,13 @@
             .then(resultat => resultat.json())
             .then(json => json.ip)
             .catch(err => handleError(err));
+            alert(ip);
     
             ville = await fetch('https://cors-anywhere.herokuapp.com/http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
             .catch(err => handleError(err));
+            alert(ville);
             
         }else{
             ville = document.querySelector('#ville').textContent;
@@ -160,7 +162,6 @@
 
     function handleError(err){
         console.error(err);
-        alert(err);
     }
 
     const ville = document.querySelector('#ville');
