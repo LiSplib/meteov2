@@ -42,6 +42,7 @@
         .then(resultat => resultat.json())
         .then(json => json)
         .catch(err => handleError(err));
+        alert(meteo);
         updateView(meteo)  
     }
 
