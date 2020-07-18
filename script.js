@@ -160,6 +160,7 @@
 
     function handleError(err){
         console.error(err);
+        alert(err);
     }
 
     const ville = document.querySelector('#ville');
