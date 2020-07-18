@@ -40,7 +40,6 @@
         .then(resultat => resultat.json())
         .then(json => json)
         .catch(err => handleError(err));
-        alert(data);
         updateView(data); 
     }
 
@@ -144,7 +143,6 @@
         nowDate = formatDate(nowDate, options);
         let temperature = currentData.main.temp;
         let wind = currentData.wind.speed;
-        console.log(currentData);
         return `
         <div class="carousel-item mh-100">
             <div class="card ${thisCond} w-100 text-white text-center p-4 h-100">
@@ -180,11 +178,5 @@
         dateToFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
         return dateToFormat;
     }
-
-    // function formatHour(dateToFormat){
-    //     dateToFormat = new Date(dateToFormat);
-    //     dateToFormat = new Intl.DateTimeFormat("fr-FR", optionsH).format(dateToFormat);
-    //     return dateToFormat;
-    // }
 
     main();
