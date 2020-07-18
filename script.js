@@ -25,25 +25,23 @@
             .then(resultat => resultat.json())
             .then(json => json.ip)
             .catch(err => handleError(err));
-            alert(ip);
     
             ville = await fetch('https://cors-anywhere.herokuapp.com/http://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
             .catch(err => handleError(err));
-            alert(ville);
             
         }else{
             ville = document.querySelector('#ville').textContent;
             
         }
 
-        const meteo = await fetch(`https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
+        const data = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
         .catch(err => handleError(err));
-        alert(meteo, err);
-        updateView(meteo)  
+        alert(data);
+        updateView(data); 
     }
 
     function updateView(data){
