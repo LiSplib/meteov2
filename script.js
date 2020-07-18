@@ -38,7 +38,7 @@
             
         }
 
-        const meteo = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
+        const meteo = await fetch(`https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?q=${ville}&appid=8340c20fbecf4c39e6dadd14cff9547b&lang=fr&units=metric`)
         .then(resultat => resultat.json())
         .then(json => json)
         .catch(err => handleError(err));
