@@ -40,6 +40,7 @@
         .then(resultat => resultat.json())
         .then(json => json)
         .catch(err => handleError(err));
+
         updateView(data); 
     }
 
@@ -110,6 +111,9 @@
         let eachHourlyData = data.list[hour];
         let dayHour = eachHourlyData.dt_txt;
         let nowDate = formatDate(dayHour, shortDate);
+        let rep = /[\/]/gi ;
+        nowDate = nowDate.replace(rep, "-");
+        console.log(nowDate);
         let nowHour = formatDate(dayHour, optionsH);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
