@@ -64,6 +64,7 @@
         const todayNow = data.list[0].dt_txt;
         let nowDate = formatDate(todayNow, options);
         let nowHour = formatDate(todayNow, optionsH);
+        console.log(nowDate, nowHour);
         let sunrise = data.city.sunrise;
         sunrise = new Date(sunrise * 1000);
         sunrise = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunrise);
