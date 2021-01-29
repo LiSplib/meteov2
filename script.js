@@ -180,6 +180,7 @@
 
     function formatDate(dateToFormat, option){
         dateToFormat = new Date(dateToFormat);
+        console.log(dateToFormat);
         dateToFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
         return dateToFormat;
     }
