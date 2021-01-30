@@ -181,7 +181,10 @@
     function formatDate(dateToFormat, option){
        const formated = new Date(dateToFormat);
         console.log(formated);
-        const goodDateFormat = new Intl.DateTimeFormat("fr-FR", option).format(formated);
+        const goodDateFormat = new Intl.DateTimeFormat("fr-FR", option);
+        console.log(goodDateFormat);
+        goodDateFormat.format(formated);
+        console.log(goodDateFormat);
         return goodDateFormat;
     }
 
