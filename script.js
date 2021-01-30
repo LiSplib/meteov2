@@ -179,10 +179,10 @@
     })
 
     function formatDate(dateToFormat, option){
-        dateToFormat = new Date(dateToFormat);
-        console.log(dateToFormat);
-        dateToFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
-        return dateToFormat;
+       const formated = new Date(dateToFormat);
+        console.log(formated);
+        const goodDateFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
+        return goodDateFormat;
     }
 
     main();
