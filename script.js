@@ -64,7 +64,6 @@
         const todayNow = data.list[0].dt_txt;
         let nowDate = formatDate(todayNow, options);
         let nowHour = formatDate(todayNow, optionsH);
-        console.log(nowDate, nowHour);
         let sunrise = data.city.sunrise;
         sunrise = new Date(sunrise * 1000);
         sunrise = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunrise);
@@ -114,7 +113,6 @@
         let nowDate = formatDate(dayHour, shortDate);
         let rep = /[\/]/gi ;
         nowDate = nowDate.replace(rep, "-");
-        console.log(nowDate);
         let nowHour = formatDate(dayHour, optionsH);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
@@ -179,10 +177,12 @@
     })
 
     function formatDate(dateToFormat, option){
-        dateToFormat = new Date(dateToFormat);
-        console.log(dateToFormat);
-        dateToFormat = new Intl.DateTimeFormat("fr-FR", option).format(dateToFormat);
-        return dateToFormat;
+        const formated = new Date(dateToFormat);
+        const goodDateFormat = new Intl.DateTimeFormat("fr-FR", option);
+        console.log(goodDateFormat);
+        goodDateFormat.format(formated);
+        console.log(goodDateFormat);
+        return goodDateFormat;
     }
 
     main();
