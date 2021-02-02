@@ -61,8 +61,8 @@
         const temperature = data.list[0].main.temp;
         const description = data.list[0].weather[0].description;
         const wind = data.list[0].wind.speed;
-        const todayNow = data.list[0].dt_txt;
-        todayNow.replace(/[-]/g, "/");
+        let todayNow = data.list[0].dt_txt;
+        todayNow = todayNow.replace(/[-]/g, "/");
         console.log(todayNow);
         let nowDate = formatDate(todayNow, options);
         let nowHour = formatDate(todayNow, optionsH);
