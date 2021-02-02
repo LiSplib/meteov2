@@ -178,7 +178,8 @@
 
     function formatDate(dateToFormat, option){
         const formated = new Date(dateToFormat);
-        let formatedDate = new Intl.DateTimeFormat("fr-FR", option).format(formated);
+        // let formatedDate = new Intl.DateTimeFormat("fr-FR", option).format(formated);
+        let formatedDate = formated.toLocaleString('fr-FR', option);
         console.log(formatedDate);
         return formatedDate;
     }
