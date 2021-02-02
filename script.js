@@ -63,7 +63,9 @@
         const wind = data.list[0].wind.speed;
         const todayNow = data.list[0].dt_txt;
         let nowDate = formatDate(todayNow, options);
+        console.log(nowDate);
         let nowHour = formatDate(todayNow, optionsH);
+        console.log(nowHour);
         let sunrise = data.city.sunrise;
         sunrise = new Date(sunrise * 1000);
         sunrise = new Intl.DateTimeFormat("fr-FR", optionsH).format(sunrise);
