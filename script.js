@@ -111,8 +111,8 @@
         let eachHourlyData = data.list[hour];
         let dayHour = eachHourlyData.dt_txt;
         let nowDate = formatDate(dayHour, shortDate);
-        let rep = /[\/]/gi ;
-        nowDate = nowDate.replace(rep, "-");
+        // let rep = /[\/]/gi ;
+        // nowDate = nowDate.replace(rep, "-");
         let nowHour = formatDate(dayHour, optionsH);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
