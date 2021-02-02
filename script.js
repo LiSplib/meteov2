@@ -63,7 +63,6 @@
         const wind = data.list[0].wind.speed;
         let todayNow = data.list[0].dt_txt;
         todayNow = todayNow.replace(/[-]/g, "/");
-        console.log(todayNow);
         let nowDate = formatDate(todayNow, options);
         let nowHour = formatDate(todayNow, optionsH);
         let sunrise = data.city.sunrise;
@@ -112,9 +111,8 @@
         const hour = Math.floor(result);
         let eachHourlyData = data.list[hour];
         let dayHour = eachHourlyData.dt_txt;
+        dayHour = dayHour.replace(/[-]/g, "/");
         let nowDate = formatDate(dayHour, shortDate);
-        // let rep = /[\/]/gi ;
-        // nowDate = nowDate.replace(rep, "-");
         let nowHour = formatDate(dayHour, optionsH);
         let eachTemp = eachHourlyData.main.temp;
         let eachCondition = eachHourlyData.weather[0].description;
@@ -144,7 +142,7 @@
         const thisDay = currentData;
         let dayIcon = currentData.weather[0].main;
         let thisCond = condition2.toLowerCase();
-        let nowDate = thisDay.dt_txt;
+        let nowDate = thisDay.dt_txt.replace(/[-]/g, "/");
         nowDate = formatDate(nowDate, options);
         let temperature = currentData.main.temp;
         let wind = currentData.wind.speed;
@@ -182,7 +180,6 @@
         const formated = new Date(dateToFormat);
         // let formatedDate = new Intl.DateTimeFormat("fr-FR", option).format(formated);
         let formatedDate = formated.toLocaleString('fr-FR', option);
-        console.log(formated);
         return formatedDate;
     }
 
