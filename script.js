@@ -180,7 +180,7 @@
         const formated = new Date(dateToFormat);
         // const goodDateFormat = new Intl.DateTimeFormat("fr-FR", option);
         // goodDateFormat.format(formated);
-        console.log(new Intl.DateTimeFormat("fr-FR", option).format(goodDateFormat));
+        console.log(new Intl.DateTimeFormat("fr-FR", option).format(formated));
         return formated;
     }
 
