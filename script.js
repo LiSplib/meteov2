@@ -26,7 +26,7 @@
             .then(json => json.ip)
             .catch(err => handleError(err));
     
-            ville = await fetch('http://ip-api.com/json/' + ip)
+            ville = await fetch('https://ip-api.com/json/' + ip)
             .then(resultat => resultat.json())
             .then(json => json.city)
             .catch(err => handleError(err));
